@@ -56,7 +56,7 @@ const UserRepos = (props) => {
                 currentPage={currentPage}
                 back={() => setCurrentPage(currentPage - 1)}
                 next={() => setCurrentPage(currentPage + 1)}
-                enabledBack={currentPage > 0}
+                enabledBack={currentPage > 1}
                 enabledNext={userRepos && userRepos.length}
               />
             )}

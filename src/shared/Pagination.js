@@ -1,6 +1,8 @@
 import React from "react";
 import Styled from "styled-components";
 import Connect from "../store/config/connect";
+import ArrowLeftIcon from "mdi-react/ArrowLeftIcon";
+import ArrowRightIcon from "mdi-react/ArrowRightIcon";
 
 const Pagination = (props) => {
 
@@ -8,9 +10,9 @@ const Pagination = (props) => {
 
   return (
     <Container>
-      <Left onClick={enabledBack ? () => back() : () => {}}></Left>
+      <Left onClick={enabledBack ? () => back() : () => {}}><ArrowLeftIcon /></Left>
       <Center>{currentPage}</Center>
-      <Right onClick={enabledNext ? () => next() : () => {}}></Right>
+      <Right onClick={enabledNext ? () => next() : () => {}}><ArrowRightIcon /></Right>
     </Container>
   );
 };
