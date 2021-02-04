@@ -54,11 +54,17 @@ const Login = (props) => {
   return (
     <Wrapper>
       <section className="container">
-        <div>
+        <div className="content-login">
           <h1>Welcome</h1>
           <span>Super amazing app</span>
           <span>{data.errorMessage}</span>
-          <div className="login-container">
+          <a
+          className="login-container"
+          href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+            onClick={() => {
+              setData({ ...data, errorMessage: "" });
+            }}
+          >
             {data.isLoading ? (
               <div className="loader-container">
                 <div className="loader"></div>
@@ -68,19 +74,11 @@ const Login = (props) => {
                 {
                   // Link to request GitHub access
                 }
-                <a
-                  className="login-link"
-                  href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                  onClick={() => {
-                    setData({ ...data, errorMessage: "" });
-                  }}
-                >
                   <GithubIcon />
                   <span>Login with GitHub</span>
-                </a>
               </>
             )}
-          </div>
+          </a>
         </div>
       </section>
     </Wrapper>
@@ -97,6 +95,9 @@ const Wrapper = Styled.section`
     height: 100vh;
     font-family: Arial;
     
+    .content-login {
+      background-color: #fff;
+    }
 
     > div:nth-child(1) {
       display: flex;
@@ -132,19 +133,14 @@ const Wrapper = Styled.section`
         display: flex;
         align-items: center;
         justify-content: center;
-
-        > .login-link {
-          text-decoration: none;
-          color: #fff;
-          text-transform: uppercase;
-          cursor: default;
-          display: flex;
-          align-items: center;          
-          height: 40px;
-
-          > span:nth-child(2) {
-            margin-left: 5px;
-          }
+        text-decoration: none;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;          
+        height: 40px;
+        cursor: pointer;
+        > span:nth-child(2) {
+          margin-left: 5px;
         }
 
         .loader-container {

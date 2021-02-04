@@ -5,7 +5,7 @@ import Card from "../shared/Card";
 import Header from "../shared/Header";
 import Connect from "../store/config/connect";
 import ReactLoading from "react-loading";
-import Pagination from "../shared/Pagination";
+import Pagination, { MAX_PAGINATION } from "../shared/Pagination";
 
 const Home = (props) => {
   const { isLoggedIn, proxy_url } = props.auth;
@@ -14,14 +14,9 @@ const Home = (props) => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // useEffect(() => {
-  //   handleGetUsers();
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   useEffect(() => {
     dispatch({ type: "FETCH_USERS" });
-    return fetch(`${proxy_url}/users?since=${(currentPage-1)*10}&per_page=10`)
+    return fetch(`${proxy_url}/users?since=${(currentPage-1)*MAX_PAGINATION}&per_page=${MAX_PAGINATION}`)
       .then((response) => response.json())
       .then((data) => {
         dispatch({
@@ -42,8 +37,11 @@ const Home = (props) => {
         <Header />
         <div>
           <div className="content">
+            <h1 className="h1">Users</h1>
             {loading && (
-              <ReactLoading color="blue" type="spin" height={60} width={60} />
+              <div className="container-loading">
+                <ReactLoading color="blue" type="spin" height={60} width={60} />
+              </div>
             )}
             {users && users.message && <p>API rate limit exceeded.</p>}
             {users &&
@@ -52,10 +50,11 @@ const Home = (props) => {
                 <Card
                   key={index}
                   id={user.id}
-                  avatar_url={user.avatar_url}
-                  login={user.login}
                   onClick={() => props.history.push(`/user/${user.id}/repos`)}
-                />
+                > 
+                  <img src={user.avatar_url} alt="Avatar" style={{width: 40, height: 40}} />
+                  <P>{user.login}</P>
+                </Card>
               ))}
             {!loading && users && !users.message && (
               <Pagination
@@ -75,11 +74,14 @@ const Home = (props) => {
 
 export default Connect(Home);
 
+const P = Styled.p`
+  padding: 10px;
+`;
+
 const Wrapper = Styled.section`
 .container{
   display: flex;
   flex-direction: column;
-  height: 100vh;
   font-family: Arial;
 
   button{
@@ -93,6 +95,7 @@ const Wrapper = Styled.section`
     text-align: center;
     border-radius: 3px;
     border: 1px solid #0041C2;
+    text-decoration: none;
 
     &:hover{
       background-color: #fff;
@@ -106,32 +109,27 @@ const Wrapper = Styled.section`
     display: flex;
     font-size: 18px;
     justify-content: center;
-    align-items: center;
 
     .content{
       display: flex;
       flex-direction: column;
-      padding: 20px 100px;    
-      width: auto;
-  
-      img{
-        height: 150px;
-        width: 150px;
-        border-radius: 50%;
-      }
-  
-      >span:nth-child(2){
-        margin-top: 20px;
-        font-weight: bold;
-      }
-  
-      >span:not(:nth-child(2)){
-        margin-top: 8px;
-        font-size: 14px;
-      }
-  
-    }
+      padding: 20px 100px;  
+      width: 100%;
+      display: flex;
+      align-items: center;
 
+      h1 {
+        margin-bottom: 20px
+      }
+
+      .container-loading {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -100px;
+      }
+    }
   }
 }
 `;

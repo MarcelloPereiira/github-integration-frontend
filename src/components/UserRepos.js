@@ -5,7 +5,7 @@ import Card from "../shared/Card";
 import Header from "../shared/Header";
 import Connect from "../store/config/connect";
 import ReactLoading from "react-loading";
-import Pagination from "../shared/Pagination";
+import Pagination, { MAX_PAGINATION } from "../shared/Pagination";
 
 const UserRepos = (props) => {
   const { isLoggedIn, proxy_url } = props.auth;
@@ -17,7 +17,9 @@ const UserRepos = (props) => {
 
   useEffect(() => {
     dispatch({ type: "FETCH_USER_REPOS" });
-    fetch(`${proxy_url}/user/${id}/repos?page=${currentPage}&per_page=10`)
+    fetch(
+      `${proxy_url}/user/${id}/repos?page=${currentPage}&per_page=${MAX_PAGINATION}`
+    )
       .then((response) => response.json())
       .then((data) => {
         dispatch({
@@ -38,27 +40,38 @@ const UserRepos = (props) => {
         <Header />
         <div>
           <div className="content">
+            <h1 className="h1">Repositories</h1>
             {loading && (
-              <ReactLoading color="blue" type="spin" height={60} width={60} />
+              <div className="container-loading">
+                <ReactLoading color="blue" type="spin" height={60} width={60} />
+              </div>
             )}
-            {!loading && <Link to="/">Back</Link>}
+            {userRepos && userRepos.message && <p>API rate limit exceeded.</p>}
             {!loading &&
               userRepos &&
+              !userRepos.message &&
               userRepos.map((userRepo, index) => (
-                <Card
-                  key={index}
-                  id={userRepo.id}
-                  full_name={userRepo.full_name}
-                />
+                <Card key={index} id={userRepo.id}>
+                  <div className="content-children">
+                    <P>{userRepo.full_name}</P>
+                    <P>
+                      <span>Forks:{userRepo.forks_count}</span>
+                    </P>
+                  </div>
+                </Card>
               ))}
             {!loading && userRepos && !userRepos.message && (
-              <Pagination
-                currentPage={currentPage}
-                back={() => setCurrentPage(currentPage - 1)}
-                next={() => setCurrentPage(currentPage + 1)}
-                enabledBack={currentPage > 1}
-                enabledNext={userRepos && userRepos.length}
-              />
+              <div className="content-pagination">
+                <div className="left" />
+                <Pagination
+                  currentPage={currentPage}
+                  back={() => setCurrentPage(currentPage - 1)}
+                  next={() => setCurrentPage(currentPage + 1)}
+                  enabledBack={currentPage > 1}
+                  enabledNext={userRepos && userRepos.length}
+                />
+                <button onClick={() => props.history.push(`/`)}>Back</button>
+              </div>
             )}
           </div>
         </div>
@@ -69,6 +82,14 @@ const UserRepos = (props) => {
 
 export default Connect(UserRepos);
 
+const P = Styled.p`
+  padding: 10px;
+  span {
+      font-size: 12px;
+      color: #777;
+  }
+`;
+
 const Wrapper = Styled.section`
 .container{
   display: flex;
@@ -76,7 +97,7 @@ const Wrapper = Styled.section`
   height: 100vh;
   font-family: Arial;
 
-  button{
+  button {
     all: unset;
     width: 100px;
     height: 35px;
@@ -87,10 +108,19 @@ const Wrapper = Styled.section`
     text-align: center;
     border-radius: 3px;
     border: 1px solid #0041C2;
+    cursor: pointer !important;
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
 
     &:hover{
       background-color: #fff;
       color: #0041C2;
+      a {
+        color: #0041C2;
+      }
     }
   }
 
@@ -100,32 +130,45 @@ const Wrapper = Styled.section`
     display: flex;
     font-size: 18px;
     justify-content: center;
-    align-items: center;
 
     .content{
       display: flex;
       flex-direction: column;
       padding: 20px 100px;    
-      width: auto;
-  
-      img{
-        height: 150px;
-        width: 150px;
-        border-radius: 50%;
-      }
-  
-      >span:nth-child(2){
-        margin-top: 20px;
-        font-weight: bold;
-      }
-  
-      >span:not(:nth-child(2)){
-        margin-top: 8px;
-        font-size: 14px;
-      }
-  
-    }
+      width: 100%;
+      display: flex;
+      align-items: center;
 
+      h1 {
+        margin-bottom: 20px
+      }
+
+      .content-children {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+      }
+
+      .content-pagination {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          max-width: 800px;
+          width: 100%;
+
+          .left {
+              width: 100px;
+          }
+      }
+
+      .container-loading {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -100px;
+      }
+    }
   }
 }
 `;
