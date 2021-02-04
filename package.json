@@ -1,5 +1,5 @@
 {
-  "name": "login-with-github",
+  "name": "integration-github-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {

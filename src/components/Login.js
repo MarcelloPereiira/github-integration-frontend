@@ -27,7 +27,7 @@ const Login = (props) => {
       };
 
       // Use code parameter and other parameters to make POST request to proxy_server
-      fetch(proxy_url, {
+      fetch(`${proxy_url}/authenticate`, {
         method: "POST",
         body: JSON.stringify(requestData)
       })

@@ -6,19 +6,19 @@ import Header from "../shared/Header";
 import Connect from "../store/config/connect";
 
 const Home = (props) => {
-  const { isLoggedIn } = props.auth;
+  const { isLoggedIn, proxy_url } = props.auth;
   const { dispatch } = props;
   const { users } = props.users;
 
   useEffect(() => {
-    // fetch("http://localhost:5000/users?since=2&per_page=4")
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     dispatch({
-    //       type: "USERS",
-    //       payload: { users: data },
-    //     });
-    //   });
+    fetch(`${proxy_url}/users?since=2&per_page=4`)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch({
+          type: "USERS",
+          payload: { users: data },
+        });
+      });
   }, []);
 
   if (!isLoggedIn) {
