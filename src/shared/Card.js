@@ -4,8 +4,15 @@ import { withRouter } from 'react-router-dom';
 
 const Card = (props) => {
   const { onClick } = props;
+  if(onClick) {
+    return (
+      <ContainerCursor onClick={() => onClick()} >
+        {props.children}
+      </ContainerCursor>
+    );
+  }
   return (
-    <Container onClick={() => onClick ? onClick() : () => {}} >
+    <Container>
       {props.children}
     </Container>
   );
@@ -13,7 +20,7 @@ const Card = (props) => {
 
 export default withRouter(Card);
 
-const Container = Styled.div`
+const Default = `
   display: flex;
   align-items: center;
   padding: 5px 30px;
@@ -22,5 +29,13 @@ const Container = Styled.div`
   color: #000;
   max-width: 800px;
   width: 100%;
+`
+
+const Container = Styled.div`
+  ${Default}
+`;
+
+const ContainerCursor = Styled.div`
+  ${Default}
   cursor: pointer;
 `;

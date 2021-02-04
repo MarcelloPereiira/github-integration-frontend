@@ -16,7 +16,11 @@ const Home = (props) => {
 
   useEffect(() => {
     dispatch({ type: "FETCH_USERS" });
-    return fetch(`${proxy_url}/users?since=${(currentPage-1)*MAX_PAGINATION}&per_page=${MAX_PAGINATION}`)
+    return fetch(
+      `${proxy_url}/users?since=${
+        (currentPage - 1) * MAX_PAGINATION
+      }&per_page=${MAX_PAGINATION}`
+    )
       .then((response) => response.json())
       .then((data) => {
         dispatch({
@@ -44,6 +48,12 @@ const Home = (props) => {
               </div>
             )}
             {users && users.message && <p>API rate limit exceeded.</p>}
+            {!loading && users && !users.message && users.length === 0 && (
+              <p>
+                Please go back to the previous page, we have no more
+                information.
+              </p>
+            )}
             {users &&
               !users.message &&
               users.map((user, index) => (
@@ -51,8 +61,12 @@ const Home = (props) => {
                   key={index}
                   id={user.id}
                   onClick={() => props.history.push(`/users/${user.id}/repos`)}
-                > 
-                  <img src={user.avatar_url} alt="Avatar" style={{width: 40, height: 40}} />
+                >
+                  <img
+                    src={user.avatar_url}
+                    alt="Avatar"
+                    style={{ width: 40, height: 40 }}
+                  />
                   <P>{user.login}</P>
                 </Card>
               ))}

@@ -56,7 +56,6 @@ const Login = (props) => {
       <section className="container">
         <div className="content-login">
           <h1>Welcome</h1>
-          <span>Super amazing app</span>
           <span>{data.errorMessage}</span>
           <a
           className="login-container"

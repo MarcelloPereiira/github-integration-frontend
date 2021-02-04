@@ -50,6 +50,10 @@ const UserRepos = (props) => {
             {!loading &&
               userRepos &&
               !userRepos.message &&
+              userRepos.length === 0 && <p>Please go back to the previous page, we have no more information.</p>}
+            {!loading &&
+              userRepos &&
+              !userRepos.message &&
               userRepos.map((userRepo, index) => (
                 <Card key={index} id={userRepo.id}>
                   <div className="content-children">
