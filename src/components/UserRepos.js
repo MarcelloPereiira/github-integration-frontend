@@ -18,7 +18,7 @@ const UserRepos = (props) => {
   useEffect(() => {
     dispatch({ type: "FETCH_USER_REPOS" });
     fetch(
-      `${proxy_url}/user/${id}/repos?page=${currentPage}&per_page=${MAX_PAGINATION}`
+      `${proxy_url}/users/${id}/repos?page=${currentPage}&per_page=${MAX_PAGINATION}`
     )
       .then((response) => response.json())
       .then((data) => {

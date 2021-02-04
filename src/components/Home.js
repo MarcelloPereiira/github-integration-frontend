@@ -50,7 +50,7 @@ const Home = (props) => {
                 <Card
                   key={index}
                   id={user.id}
-                  onClick={() => props.history.push(`/user/${user.id}/repos`)}
+                  onClick={() => props.history.push(`/users/${user.id}/repos`)}
                 > 
                   <img src={user.avatar_url} alt="Avatar" style={{width: 40, height: 40}} />
                   <P>{user.login}</P>
