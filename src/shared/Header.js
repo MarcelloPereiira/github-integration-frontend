@@ -43,4 +43,5 @@ const Head = Styled.header`
   background-color: #f4f4f5;
   box-shadow: 0 0 5px 0 #999;
   color: #000;
+  z-index: 1000;
 `;

@@ -1,21 +1,21 @@
 export const initialState = {
-    users: [],
+    userRepos: [],
     loading: false
 }
   
   export const reducer = (state = initialState, action) => {
     switch (action.type) {
-      case "FETCH_USERS":
+      case "FETCH_USER_REPOS": {
         return {
           ...state,
-          loading: true,
-          users: []
-        }
-      case "USERS": {
+          loading: true
+        };
+      }
+      case "USER_REPOS": {
         return {
           ...state,
-          loading: false,
-          users: action.payload.users
+          userRepos: action.payload.userRepos,
+          loading: false
         };
       }
       default:

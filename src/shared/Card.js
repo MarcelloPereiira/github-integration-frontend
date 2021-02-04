@@ -1,17 +1,19 @@
 import React from "react";
 import Styled from "styled-components";
+import { withRouter } from 'react-router-dom';
 
 const Card = (props) => {
-  const { avatar_url, login, id } = props;
+  const { avatar_url, login, full_name, onClick } = props;
   return (
-    <Container onClick={() => alert(id)}>
-      <img src={avatar_url} alt="Avatar" style={{width: 40, height: 40}} />
-      <P>{login}</P>
+    <Container onClick={() => onClick ? onClick() : () => {}}>
+      {full_name && <P>{full_name}</P>}
+      {avatar_url && <img src={avatar_url} alt="Avatar" style={{width: 40, height: 40}} />}
+      {login && <P>{login}</P>}
     </Container>
   );
 };
 
-export default Card;
+export default withRouter(Card);
 
 const P = Styled.p`
   padding: 10px;
