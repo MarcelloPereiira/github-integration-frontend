@@ -21,7 +21,7 @@ const Home = (props) => {
 
   useEffect(() => {
     dispatch({ type: "FETCH_USERS" });
-    return fetch(`${proxy_url}/users?since=${currentPage}&per_page=20`)
+    return fetch(`${proxy_url}/users?since=${(currentPage-1)*10}&per_page=10`)
       .then((response) => response.json())
       .then((data) => {
         dispatch({
