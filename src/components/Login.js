@@ -108,6 +108,14 @@ const Wrapper = Styled.section`
       width: 25%;
       height: 45%;
 
+      @media screen and (min-width: 800px) and (max-width: 1200px) {
+        width: 70%;
+      }
+      
+      @media screen and (max-width: 800px) {
+        width: 90%;
+      }
+
       > h1 {
         font-size: 2rem;
         margin-bottom: 20px;
