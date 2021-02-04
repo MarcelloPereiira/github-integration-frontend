@@ -110,6 +110,7 @@ const Wrapper = Styled.section`
     border-radius: 3px;
     border: 1px solid #0041C2;
     text-decoration: none;
+    cursor: pointer !important;
 
     &:hover{
       background-color: #fff;
